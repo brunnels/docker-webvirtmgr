@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -e
+
+if [ -e /.init ]; then
+	exit
+fi
+
+touch /.init
+
+USER_NAME=${USER_NAME:-forumi0721}
+USER_PASSWD=$([ ! -z "${USER_EPASSWD}" ] && echo ${USER_EPASSWD} | base64 -d 2>/dev/null || echo ${USER_PASSWD:-passwd})
+USER_EMAIL=${USER_EMAIL:-${USER_NAME}@localhost.local}
+TIMEZONE=${TIMEZONE:-Asia/Seoul}
+
+mkdir -p /conf.d/webvirtmgr
+
+. /usr/share/webapps/webvirtmgr/venv/bin/activate
+
+if [ ! -s /conf.d/webvirtmgr/webvirtmgr.sqlite3 ]; then
+	cd /usr/share/webapps/webvirtmgr
+	python2 manage.py syncdb --noinput
+	echo "from django.contrib.auth.models import User; User.objects.create_superuser('${USER_NAME}', '${USER_EMAIL}', '${USER_PASSWD}')" | python2 manage.py shell
+	cd -
+fi
+if [ ! -z "${TIMEZONE}" ]; then
+	sed -i -e "s@^\(TIME_ZONE\) = .*@\1 = '${TIMEZONE}'@g" /usr/share/webapps/webvirtmgr/webvirtmgr/settings.py
+fi
+

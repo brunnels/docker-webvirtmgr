@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+docker-bootstrap
+
+exec s6-svscan /usr/local/etc/s6
+
