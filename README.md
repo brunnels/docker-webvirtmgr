@@ -7,7 +7,7 @@
 #### Description
 * Distribution : [Alpine Linux](https://alpinelinux.org/)
 * Architecture : x64
-* Base Image   : [forumi0721alpinex64/alpine-x64-base](https://hub.docker.com/r/forumi0721alpinex64/alpine-x64-base/)
+* Base Image   : [forumi0721/alpine-x64-base](https://hub.docker.com/r/forumi0721/alpine-x64-base/)
 * Appplication : [WebVirtMgr](https://github.com/retspen/webvirtmgr)
     - WebVirtMgr panel for manage virtual machine http://retspen.github.io
 
