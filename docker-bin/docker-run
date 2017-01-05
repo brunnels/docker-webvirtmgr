@@ -2,7 +2,13 @@
 
 set -e
 
+[ -x /usr/local/bin/docker-run-pre ] && /usr/local/bin/docker-run-pre
+
 docker-bootstrap
 
-exec s6-svscan /usr/local/etc/s6
+if [ -x /usr/local/bin/docker-run-post ]; then
+	exec /bin/sh usr/local/bin/docker-run-post
+else
+	exec s6-svscan /usr/local/etc/s6
+fi
 
