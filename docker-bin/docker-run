@@ -6,8 +6,8 @@ set -e
 
 docker-bootstrap
 
-if [ -x /usr/local/bin/docker-run-post ]; then
-	exec /bin/sh usr/local/bin/docker-run-post
+if [ -x /usr/local/bin/docker-run-alt ]; then
+	exec /bin/sh /usr/local/bin/docker-run-alt
 else
 	exec s6-svscan /usr/local/etc/s6
 fi
