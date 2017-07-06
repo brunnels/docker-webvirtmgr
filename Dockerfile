@@ -2,7 +2,7 @@ FROM forumi0721/alpine-x64-base:latest
 
 MAINTAINER stonecold <forumi0721@gmail.com>
 
-COPY docker-bin/. /usr/local/bin/
+COPY local/. /usr/local/
 
 #RUN ["docker-build-start"]
 

@@ -4,7 +4,7 @@ set -e
 
 [ -x /usr/local/bin/docker-run-pre ] && /usr/local/bin/docker-run-pre
 
-docker-bootstrap
+[ -x /usr/local/bin/docker-bootstrap ] && /usr/local/bin/docker-bootstrap
 
 if [ -x /usr/local/bin/docker-run-alt ]; then
 	exec /usr/local/bin/docker-run-alt

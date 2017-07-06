@@ -2,13 +2,13 @@
 
 set -e
 
-docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client s6 python2-dev py-virtualenv libxml2-dev libvirt-dev zlib-dev openssl build-base
+docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client s6 python2-dev py-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget
 
 mkdir -p /conf.d /conf.d/webvirtmgr
 
 mkdir -p /usr/share/webapps /run/webvirtmgr
 cd /usr/share/webapps 
-wget https://github.com/retspen/webvirtmgr/archive/master.tar.gz -q -O - | tar zx
+wget --no-check-certificate https://github.com/retspen/webvirtmgr/archive/master.tar.gz -q -O - | tar zx
 mv webvirtmgr-master webvirtmgr
 cd webvirtmgr
 
@@ -28,32 +28,10 @@ pip2 install -r requirements.txt
 sed -i -e "s@os.path.join(os.path.dirname(__file__), '..', 'webvirtmgr.sqlite3')@os.path.join('/conf.d/webvirtmgr/', 'webvirtmgr.sqlite3')@g" /usr/share/webapps/webvirtmgr/webvirtmgr/settings.py
 sed -i -e "s/^\(bind = .*\)$/#\1\nbind = '0.0.0.0:8000'/g" /usr/share/webapps/webvirtmgr/conf/gunicorn.conf.py
 
-docker-install -c -d python2-dev py-virtualenv libxml2-dev libvirt-dev zlib-dev openssl build-base
+docker-install -c -d python2-dev py-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget
 rm -rf /root/.cache
 
 python2 manage.py collectstatic --noinput
 
 find /usr/share/webapps/webvirtmgr -name '*.pyc' -delete
-
-mkdir -p /usr/local/etc/s6/.s6-svscan
-
-mkdir -p /usr/local/etc/s6/webvirtmgr
-cat << EOF > /usr/local/etc/s6/webvirtmgr/run
-#!/bin/sh
-
-cd /usr/share/webapps/webvirtmgr
-. venv/bin/activate
-exec python2 manage.py run_gunicorn -c /usr/share/webapps/webvirtmgr/conf/gunicorn.conf.py
-EOF
-chmod 755 /usr/local/etc/s6/webvirtmgr/run
-
-mkdir -p /usr/local/etc/s6/webvirtmgr-console
-cat << EOF > /usr/local/etc/s6/webvirtmgr-console/run
-#!/bin/sh
-
-cd /usr/share/webapps/webvirtmgr
-. venv/bin/activate
-exec python2 /usr/share/webapps/webvirtmgr/console/webvirtmgr-console
-EOF
-chmod 755 /usr/local/etc/s6/webvirtmgr-console/run
 

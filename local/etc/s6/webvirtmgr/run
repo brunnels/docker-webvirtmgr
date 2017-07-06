@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /usr/share/webapps/webvirtmgr
+. venv/bin/activate
+exec python2 manage.py run_gunicorn -c /usr/share/webapps/webvirtmgr/conf/gunicorn.conf.py

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /usr/share/webapps/webvirtmgr
+. venv/bin/activate
+exec python2 /usr/share/webapps/webvirtmgr/console/webvirtmgr-console
