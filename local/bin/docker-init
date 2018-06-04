@@ -2,7 +2,7 @@
 
 set -e
 
-docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client s6 python2-dev py2-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget
+docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client python2-dev py2-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget
 
 mkdir -p /conf.d /conf.d/webvirtmgr
 

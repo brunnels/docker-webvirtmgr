@@ -11,6 +11,6 @@ set -e
 if [ -x /usr/local/bin/docker-run-alt ]; then
 	exec /usr/local/bin/docker-run-alt "${@}"
 else
-	exec s6-svscan /usr/local/etc/s6
+	exec /usr/local/bin/goreman -basedir /usr/local/etc/ -f Procfile start
 fi
 
