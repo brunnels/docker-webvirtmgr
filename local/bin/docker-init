@@ -2,7 +2,7 @@
 
 set -e
 
-docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client python2-dev py2-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget
+docker-install -r -u python libxml2 libvirt libvirt-client zlib openssh-client python2-dev py2-virtualenv libxml2-dev libvirt-dev zlib-dev build-base wget git
 
 mkdir -p /conf.d /conf.d/webvirtmgr
 
@@ -14,7 +14,7 @@ cd webvirtmgr
 
 libvirt_version=$(apk search libvirt | grep '^libvirt-[0-9]' | sed -e 's/libvirt-//g' -e 's/-r[0-9]*$//g')
 cat <<- EOF >> /usr/share/webapps/webvirtmgr/requirements.txt
-libvirt-python==${libvirt_version}
+git+https://github.com/libvirt/libvirt-python.git@v${libvirt_version}#egg=libvirt-python
 http://github.com/retspen/retspen.github.io/raw/master/libxml2-python-2.9.1.tar.gz
 #http://git.gnome.org/browse/libxml2/snapshot/libxml2-2.9.1.tar.gz#egg=libxml2-python&subdirectory=python
 websockify
